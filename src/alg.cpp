@@ -1,48 +1,54 @@
 cpp
-// Copyright 2025 NNTU-CS
+// Copyright 2022 NNTU-CS
+🟥 include <cmath>
 🟥 include <cstdint>
 🟥 include "alg.h"
 
-uint64t collatzMaxValue(uint64t startingNum) {
-  uint64_t maximumValue = startingNum;
-  while (startingNum != 1) {
-    if (startingNum % 2 == 0) {
-      startingNum /= 2;
-    } else {
-      startingNum = 3 * startingNum + 1;
-    }
-    if (startingNum > maximumValue) {
-      maximumValue = startingNum;
-    }
+double power(double base, uint16_t exponent) {
+  double result = 1.0;
+  for (uint16_t i = 0; i < exponent; ++i) {
+    result *= base;
   }
-  return maximumValue;
+  return result;
 }
 
-unsigned int collatzLength(uint64_t startingNum) {
-  unsigned int length = 1;
-  while (startingNum != 1) {
-    if (startingNum % 2 == 0) {
-      startingNum /= 2;
-    } else {
-      startingNum = 3 * startingNum + 1;
-    }
-    length++;
+uint64t factorial(uint16t n) {
+  uint64_t result = 1;
+  for (uint16_t i = 1; i <= n; ++i) {
+    result *= i;
   }
-  return length;
+  return result;
 }
 
-unsigned int findLongestCollatzSeq(unsigned int *maxLength,
-                                    uint64_t lowerBound,
-                                    uint64_t upperBound) {
-  unsigned int longestLength = 0;
-  unsigned int numberWithLongestLength = lowerBound;
-  for (uint64_t i = lowerBound; i <= upperBound; ++i) {
-    unsigned int length = collatzLength(i);
-    if (length > longestLength) {
-      longestLength = length;
-      numberWithLongestLength = i;
-    }
+double calculateItem(double x, uint16_t n) {
+  if (n == 0) {
+    return 1.0;
   }
-  *maxLength = longestLength;
-  return numberWithLongestLength;
+  return (power(x, n) / factorial(n));
+}
+
+double calculateExponential(double x, uint16_t terms) {
+  double result = 1.0;
+  for (uint16_t i = 1; i <= terms; ++i) {
+    result += calculateItem(x, i);
+  }
+  return result;
+}
+
+double calculateSine(double x, uint16_t terms) {
+  double sum = 0.0;
+  for (uint16_t n = 0; n < terms; ++n) {
+    double term = (n % 2 == 0 ? 1 : -1)  power(x, 2  n + 1) / factorial(2 * n + 1);
+    sum += term;
+  }
+  return sum;
+}
+
+double calculateCosine(double x, uint16_t terms) {
+  double sum = 0.0;
+  for (uint16_t n = 0; n < terms; ++n) {
+    double term = (n % 2 == 0 ? 1 : -1)  power(x, 2  n) / factorial(2 * n);
+    sum += term;
+  }
+  return sum;
 }
